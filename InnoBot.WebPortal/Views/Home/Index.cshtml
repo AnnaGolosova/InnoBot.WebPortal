@@ -1,31 +1,96 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Innowise Meetup";
 }
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-6">
+        <div class="row">
+            <div class="h2">Questions</div>
+        </div>
+        <div class="row">
+            <ul class="nav nav-tabs" id="questionsTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="topic1-tab" data-toggle="tab" href="#topic1" role="tab" aria-controls="topic1" aria-selected="true">Topic 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  id="topic2-tab" data-toggle="tab" href="#topic2" role="tab" aria-controls="topic2" aria-selected="false">Topic 2</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="topic3-tab" data-toggle="tab" href="#topic3" role="tab" aria-controls="topic3" aria-selected="false">Topic 3</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="topic1" role="tabpanel" aria-labelledby="topic1-tab">
+                  <div class="messages-container" id="questions-container">
 
-<div id="inputForm">
-        <input type="text" id="message" />
-        <input type="button" id="sendBtn" value="Отправить" />
+                      <div class="row" style="padding:3px;">
+                          <div class="col-xl-2">
+                          </div>
+                          <div class="col-xl-9 message">
+                              <div class="row">
+                                  <div class="h6">HANNA:</div>
+                              </div>
+                              <div class="row">
+                                  <span>dfjlkdj fnlkdj vnkldfj vnlkdjfv lkdfjbvnkldjfb vnkldfj vnkldfj vnkldjfvnlkdjfvn;ldkjf vnlkdvn</span>
+                              </div>
+                              <div class="row">
+                                  <span class="message-date">Date: 2021-01-01 18:00</span>
+                              </div>
+                          </div>
+                      </div>
+                     
+                    </div>
+              </div>
+              <div class="tab-pane fade" id="topic2" role="tabpanel" aria-labelledby="topic2-tab">.ggg..</div>
+              <div class="tab-pane fade" id="topic3" role="tabpanel" aria-labelledby="topic3-tab">.jjjj..</div>
+            </div>
+        </div>
     </div>
-    <div id="chatroom"></div>
-    <script src="js/signalr/dist/browser/signalr.min.js"></script>
-    <script>
-        const hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:44348/chat"/*, { transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.LongPolling }*/)
-            .build();
+    <div class="col-sm-1"></div>
+    <div class="col-sm-3">
+        <div class="h2">Feedbacks</div>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
+
+<script src="js/signalr/dist/browser/signalr.min.js"></script>
+<script>
+    const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:44348/chat")
+        .withAutomaticReconnect()
+        .build();
+
+     const Item = ({ authorName, questionText, asked }) => `
+      <div class="row" style="padding:3px;">
+            <div class="col-xl-2">
+            </div>
+            <div class="col-xl-9 message">
+                <div class="row">
+                    <div class="h6">${authorName}</div>
+                </div>
+                <div class="row">
+                    <span>${questionText}</span>
+                </div>
+                <div class="row">
+                    <span class="message-date">Date: ${asked}</span>
+                </div>
+            </div>
+        </div>
+    `;
+
+    hubConnection.on("SendFeedback", function (data) {
+        let elem = document.createElement("p");
+        elem.appendChild(document.createTextNode("Massege - " + data.message));
+        elem.appendChild(document.createTextNode(data.futureProposal));
+        let firstElem = document.getElementById("feedbacks").firstChild;
+        document.getElementById("feedbacks").insertBefore(elem, firstElem);
+    });
  
-        hubConnection.on("Send", function (data) {
-            console.log("Inside SEND method");
-            let elem = document.createElement("p");
-            elem.appendChild(document.createTextNode(data));
-            let firstElem = document.getElementById("chatroom").firstChild;
-            document.getElementById("chatroom").insertBefore(elem, firstElem);
+    hubConnection.on("SendQuestion", function (data) {
+        $('#questions-container').append([
+          { authorName: data.authorName, questionText: data.questionText, asked: data.asked }
+        ].map(Item).join(''));
+    });
  
-        });
- 
-        document.getElementById("sendBtn").addEventListener("click", function (e) {
-            let message = document.getElementById("message").value;
-            hubConnection.invoke("Send", message);
-        });
- 
-        hubConnection.start();
-    </script>
+    hubConnection.start();
+</script>

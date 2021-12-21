@@ -16,3 +16,19 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.messages-container
+{
+    background-color: crimson;
+}
+
+.message {
+    background-color: white;
+    border-radius: 10px;
+}
+
+.message-date
+{
+    color: gray;
+    font-style:italic;
+}
