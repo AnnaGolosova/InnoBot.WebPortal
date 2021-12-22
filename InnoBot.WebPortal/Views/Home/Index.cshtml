@@ -36,9 +36,9 @@
                                     {
                                         <div class="media message">
                                             <img src="~/content/person.png" class="mr-3" alt="...">
-                                            <div class="media-body">
+                                            <div class="media-body text-break text-justify">
                                                 <h5 class="mt-0">@question.AuthorName</h5>
-                                                @question.QuestionText <br />
+                                                @question.QuestionText
                                                 <span class="message-date float-right">@question.Asked.ToString("hh:mm yyyy/MM/dd")</span>
                                             </div>
                                         </div>
@@ -48,7 +48,7 @@
                                 {
                                     <div class="media message">
                                         <img src="~/content/person.png" class="mr-3" alt="...">
-                                        <div class="media-body">
+                                        <div class="media-body text-break">
                                             <h5 class="mt-0">У матросов нет вопросов</h5>
                                             Ой, совсем нет вопросов! Докладчик молодец :) <br />
                                             <span class="message-date float-right">@DateTime.Now.ToString("hh:mm yyyy/MM/dd")</span>
@@ -73,7 +73,7 @@
                 {
                     <div class="media message">
                         <img src="~/content/person.png" class="mr-3" alt="...">
-                        <div class="media-body text-justify">
+                        <div class="media-body text-justify text-break">
                             <h5 class="mt-0">@feedback.AuthorName</h5>
                             @feedback.Message
                             <h6 class="mt-1">Future Proposal:</h6>

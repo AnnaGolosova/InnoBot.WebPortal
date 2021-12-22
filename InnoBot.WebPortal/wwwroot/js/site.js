@@ -23,7 +23,7 @@ $(document).ready(function () {
 const QuestionTemplate = ({ name, text, date }) => `
 <div class="media message">
     <img src="/content/person.png" class="mr-3" alt="...">
-    <div class="media-body">
+    <div class="media-body text-break text-justify">
         <h5 class="mt-0">${name}</h5>
         ${text}<br />
         <span class="message-date float-right">${date}</span>
@@ -34,7 +34,7 @@ const QuestionTemplate = ({ name, text, date }) => `
 const FeedbackTemplate = ({ name, text, proposal, date }) => `
 <div class="media message">
     <img src="/content/person.png" class="mr-3" alt="...">
-        <div class="media-body text-justify">
+        <div class="media-body text-justify text-break">
             <h5 class="mt-0">${name}</h5>
             ${text}<br />
             <h6 class="mt-1">Future Proposal:</h6>
