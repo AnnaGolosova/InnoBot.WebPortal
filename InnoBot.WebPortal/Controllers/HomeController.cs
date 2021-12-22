@@ -18,10 +18,12 @@ namespace InnoBot.WebPortal.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.GroupedQuestions = await _httpService.GetGroupedQuestions();
+            ViewBag.Presentations = await _httpService.GetPresentationsAsync();
             ViewBag.Feedbacks = await _httpService.GetFeedbacksAsync();
 
-            return View();
+            var questions = await _httpService.GetGroupedQuestions();
+
+            return View(questions);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

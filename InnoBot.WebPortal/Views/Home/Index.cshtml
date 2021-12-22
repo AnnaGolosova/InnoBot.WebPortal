@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Dictionary<Guid, List<QuestionModel>>
+@{
     ViewData["Title"] = "Innowise Meetup";
 }
 
@@ -9,7 +10,18 @@
         </div>
         <div class="row tabs" id="questions-tabs">
             <ul class="nav nav-pills tabs__caption" id="questionsTab" role="tablist">
-                <li class="nav-item active">
+                @if (ViewBag.Presentations != null && ViewBag.Presentations.Count > 0)
+                {
+                    @foreach (PresentationModel presentation in ViewBag.Presentations)
+                    {
+                        int presentationNumber = ViewBag.Presentations.IndexOf(presentation);
+                        string topicName = "topic" + presentationNumber;
+                        <li class="nav-item @(presentationNumber == 0 ? "active" : "")">
+                            <a class="nav-link @(presentationNumber == 0 ? "active" : "")" id="@topicName-tab" href="#@topicName" aria-current="page">@presentation.Title</a>
+                        </li>
+                    }
+                }
+                @*<li class="nav-item active">
                     <a class="nav-link active" id="topic1-tab" href="#topic1" aria-current="page">Topic 1</a>
                 </li>
                 <li class="nav-item">
@@ -17,15 +29,15 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="topic3-tab" href="#topic3">Topic 3</a>
-                </li>
+                </li>*@
             </ul>
         </div>
         <div class="row">
             <div class="tab-content" id="myTabContent">
-                @if (ViewBag.GroupedQuestions != null && ViewBag.GroupedQuestions.Count > 0)
+                @if (Model != null && Model.Count > 0)
                 {
                     int groupCounter = 0;
-                    foreach (KeyValuePair<Guid, List<QuestionModel>> questionsForPresentation in ViewBag.GroupedQuestions)
+                    foreach (KeyValuePair<Guid, List<QuestionModel>> questionsForPresentation in Model)
                     {
                         bool isFirstItem = groupCounter == 0;
                         <div class="tab-pane tabs__content @(isFirstItem ? "active" : "")">

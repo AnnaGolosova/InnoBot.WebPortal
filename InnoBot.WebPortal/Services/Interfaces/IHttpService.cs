@@ -8,5 +8,6 @@ namespace InnoBot.WebPortal.Services.Interfaces
         Task<List<FeedbackModel>> GetFeedbacksAsync();
         Task<Dictionary<Guid, List<QuestionModel>>> GetGroupedQuestions();
         Task<List<QuestionModel>> GetQuestionsForPresentationAsync(Guid presentationId);
+        Task<List<PresentationModel>> GetPresentationsAsync();
     }
 }
