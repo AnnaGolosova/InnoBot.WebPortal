@@ -62,16 +62,23 @@ namespace InnoBot.WebPortal.Services
             return new List<FeedbackModel>();
         }
 
+        public async Task<List<PresentationModel>> GetPresentationsAsync()
+        {
+            var serverResponse = await _httpClient.GetAsync(_apiUrl + "api/presentations");
+
+            if (serverResponse.IsSuccessStatusCode)
+            {
+                var stringContent = await serverResponse.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<List<PresentationModel>>(stringContent) ?? new List<PresentationModel>();
+            }
+
+            return new List<PresentationModel>();
+        }
+
         public async Task<Dictionary<Guid, List<QuestionModel>>> GetGroupedQuestions()
         {
-            var getPresentationsResponse = await _httpClient.GetAsync(_apiUrl + "api/presentations");
-            List<PresentationModel> allPresentations = null;
-            if (getPresentationsResponse.IsSuccessStatusCode)
-            {
-                var stringContent = await getPresentationsResponse.Content.ReadAsStringAsync();
-
-                allPresentations = JsonConvert.DeserializeObject<List<PresentationModel>>(stringContent) ?? new List<PresentationModel>();
-            }
+            List<PresentationModel> allPresentations = await GetPresentationsAsync();
 
             if (allPresentations == null || allPresentations.Count <= 0)
             {
