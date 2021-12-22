@@ -1,6 +1,11 @@
 ﻿let hubConnection;
 
 $(document).ready(function () {
+    $('ul.tabs__caption').on('click', 'li:not(.active)', function () {
+        $(this)
+            .addClass('active').siblings().removeClass('active')
+            .closest('div.tabs').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
+    });
 
     hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("https://localhost:44348/chat")
