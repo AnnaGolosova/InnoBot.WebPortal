@@ -17,14 +17,18 @@ body {
   margin-bottom: 60px;
 }
 
-.messages-container
+.messages-container div
 {
-    background-color: crimson;
+    margin: 5px 0px;
+}
+.message img {
+    margin: 5px;
 }
 
 .message {
     background-color: white;
     border-radius: 10px;
+    padding: 0px 10px 0px 0px;
 }
 
 .message-date

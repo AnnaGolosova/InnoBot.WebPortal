@@ -1,4 +1,5 @@
 ﻿using InnoBot.WebPortal.Models;
+using InnoBot.WebPortal.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,21 +8,20 @@ namespace InnoBot.WebPortal.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IHttpService _httpService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IHttpService httpService)
         {
             _logger = logger;
+            _httpService=httpService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewBag.Questions = await _httpService.GetQuestionsAsync();
+            ViewBag.Feedbacks = await _httpService.GetFeedbacksAsync();
+
             return View();
-        }
-
-        [HttpPost]
-        public IActionResult ReceiveMessage(string message)
-        {
-            return View("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

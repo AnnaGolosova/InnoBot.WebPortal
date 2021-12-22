@@ -1,7 +1,11 @@
+using InnoBot.WebPortal.Services;
+using InnoBot.WebPortal.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IHttpService, HttpService>();
 
 var app = builder.Build();
 
