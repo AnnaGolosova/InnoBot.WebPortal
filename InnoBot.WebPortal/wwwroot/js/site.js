@@ -13,58 +13,50 @@ $(document).ready(function () {
 
 })
 
-const dateFormatOptions = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-};
-const timeFormatOptions = {
-    hour: '2-digit',
-    minute: '2-digit'
-};
-
-const QuestionTemplate = ({ name, text, date, time }) => `
+const QuestionTemplate = ({ name, text, date }) => `
 <div class="media message">
-    <img src="~/content/person.png" class="mr-3" alt="...">
+    <img src="/content/person.png" class="mr-3" alt="...">
     <div class="media-body">
         <h5 class="mt-0">${name}</h5>
         ${text}<br />
-        <span class="message-date">${date} ${time}</span>
+        <span class="message-date float-right">${date}</span>
     </div>
 </div>
     `;
 
-const FeedbackTemplate = ({ name, text, proposal, date, time }) => `
+const FeedbackTemplate = ({ name, text, proposal, date }) => `
 <div class="media message">
-    <img src="~/content/person.png" class="mr-3" alt="...">
+    <img src="/content/person.png" class="mr-3" alt="...">
         <div class="media-body text-justify">
             <h5 class="mt-0">${name}</h5>
             ${text}<br />
             <h6 class="mt-1">Future Proposal:</h6>
             ${proposal}<br />
-            <span class="message-date float-right">${date} ${time}</span>
+            <span class="message-date float-right">${date}</span>
         </div>
 </div>
     `;
 function PrintNewQuestion(question) {
+    let askedDate = new Date(question.asked);
+
     $('#questions-container').prepend([
         {
             name: question.authorName,
-            text: question.text,
-            date: new Date(question.asked).toLocaleDateString("en-US", dateFormatOptions),
-            time: new Date(question.asked).toLocaleTimeString("en-US", timeFormatOptions)
+            text: question.questionText,
+            date: askedDate.getHours() + ':' + askedDate.getMinutes() + ' ' + askedDate.getFullYear() + '/' + askedDate.getMonth() + '/' + askedDate.getDate()
         }
     ].map(QuestionTemplate).join(''));
 }
 
 function PrintNewFeedback(feedback) {
+    let sentDate = new Date(feedback.sent);
+
     $('#feedbacks-container').prepend([
         {
             name: feedback.authorName,
-            text: feedback.questionText,
+            text: feedback.message,
             proposal: feedback.futureProposal,
-            date: new Date(feedback.sent).toLocaleDateString("en-US", dateFormatOptions),
-            time: new Date(feedback.sent).toLocaleTimeString("en-US", timeFormatOptions)
+            date: sentDate.getHours() + ':' + sentDate.getMinutes() + ' ' + sentDate.getFullYear() + '/' + sentDate.getMonth() + '/' + sentDate.getDate()
         }
     ].map(FeedbackTemplate).join(''));
 }

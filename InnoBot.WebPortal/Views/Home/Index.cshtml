@@ -45,7 +45,7 @@
     <div class="col-sm-1"></div>
     <div class="col-sm-4">
         <div class="h2" style="color:white;">Feedbacks</div>
-        <div class="messages-container" id="feedback-container">
+        <div class="messages-container" id="feedbacks-container">
             @if (ViewBag.Feedbacks != null && ViewBag.Feedbacks.Count > 0)
             {
                 foreach (FeedbackModel feedback in ViewBag.Feedbacks)
@@ -53,7 +53,7 @@
                 <div class="media message">
                     <img src="~/content/person.png" class="mr-3" alt="...">
                     <div class="media-body text-justify">
-                        <h5 class="mt-0">Hanna:</h5>
+                        <h5 class="mt-0">@feedback.AuthorName</h5>
                         @feedback.Message
                         <h6 class="mt-1">Future Proposal:</h6>
                         @feedback.FutureProposal<br />

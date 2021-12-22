@@ -22,7 +22,7 @@ namespace InnoBot.WebPortal.Services
 
         public async Task<List<QuestionModel>> GetQuestionsAsync()
         {
-            var serverResponse = await _httpClient.GetAsync(_apiUrl + "api/bot/questions");
+            var serverResponse = await _httpClient.GetAsync(_apiUrl + "api/questions");
 
             if (serverResponse.IsSuccessStatusCode)
             {
@@ -36,7 +36,7 @@ namespace InnoBot.WebPortal.Services
 
         public async Task<List<FeedbackModel>> GetFeedbacksAsync()
         {
-            var serverResponse = await _httpClient.GetAsync(_apiUrl + "api/bot/feedbacks");
+            var serverResponse = await _httpClient.GetAsync(_apiUrl + "api/feedbacks");
 
             if (serverResponse.IsSuccessStatusCode)
             {
