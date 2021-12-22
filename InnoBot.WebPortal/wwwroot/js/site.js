@@ -4,7 +4,9 @@ $(document).ready(function () {
     $('ul.tabs__caption').on('click', 'li:not(.active)', function () {
         $(this)
             .addClass('active').siblings().removeClass('active')
-            .closest('div.tabs').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
+            .closest('div.tabs').next('div.row').find('div.tabs__content').removeClass('active').eq($(this).index()).addClass('active');
+        $(this).siblings().children('a').removeClass('active');
+        $(this).children('a').addClass('active');
     });
 
     hubConnection = new signalR.HubConnectionBuilder()
@@ -44,7 +46,7 @@ const FeedbackTemplate = ({ name, text, proposal, date }) => `
 function PrintNewQuestion(question) {
     let askedDate = new Date(question.asked);
 
-    $('#questions-container').prepend([
+    $('#presentation-' + question.presentationId).prepend([
         {
             name: question.authorName,
             text: question.questionText,

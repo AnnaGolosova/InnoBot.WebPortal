@@ -34,6 +34,20 @@ namespace InnoBot.WebPortal.Services
             return new List<QuestionModel>();
         }
 
+        public async Task<List<QuestionModel>> GetQuestionsForPresentationAsync(Guid presentationId)
+        {
+            var serverResponse = await _httpClient.GetAsync($"{_apiUrl}api/presentations/{presentationId}/questions");
+
+            if (serverResponse.IsSuccessStatusCode)
+            {
+                var stringContent = await serverResponse.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<List<QuestionModel>>(stringContent) ?? new List<QuestionModel>();
+            }
+
+            return new List<QuestionModel>();
+        }
+
         public async Task<List<FeedbackModel>> GetFeedbacksAsync()
         {
             var serverResponse = await _httpClient.GetAsync(_apiUrl + "api/feedbacks");
@@ -46,6 +60,33 @@ namespace InnoBot.WebPortal.Services
             }
 
             return new List<FeedbackModel>();
+        }
+
+        public async Task<Dictionary<Guid, List<QuestionModel>>> GetGroupedQuestions()
+        {
+            var getPresentationsResponse = await _httpClient.GetAsync(_apiUrl + "api/presentations");
+            List<PresentationModel> allPresentations = null;
+            if (getPresentationsResponse.IsSuccessStatusCode)
+            {
+                var stringContent = await getPresentationsResponse.Content.ReadAsStringAsync();
+
+                allPresentations = JsonConvert.DeserializeObject<List<PresentationModel>>(stringContent) ?? new List<PresentationModel>();
+            }
+
+            if (allPresentations == null || allPresentations.Count <= 0)
+            {
+                return new Dictionary<Guid, List<QuestionModel>>();
+            }
+
+            var groupedPresentations = new Dictionary<Guid, List<QuestionModel>>();
+            foreach (var presentationId in allPresentations.Select(p => p.Id))
+            {
+                var questions = await GetQuestionsForPresentationAsync(presentationId);
+
+                groupedPresentations.Add(presentationId, questions);
+            }
+
+            return groupedPresentations;
         }
     }
 }

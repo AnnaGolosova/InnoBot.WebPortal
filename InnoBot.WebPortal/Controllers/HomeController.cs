@@ -18,7 +18,7 @@ namespace InnoBot.WebPortal.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.Questions = await _httpService.GetQuestionsAsync();
+            ViewBag.GroupedQuestions = await _httpService.GetGroupedQuestions();
             ViewBag.Feedbacks = await _httpService.GetFeedbacksAsync();
 
             return View();

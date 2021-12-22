@@ -8,60 +8,58 @@
             <div class="h2" style="color:white;">Questions</div>
         </div>
         <div class="row tabs" id="questions-tabs">
-            <ul class="nav tabs__caption" id="questionsTab" role="tablist">
-                <li class="active">
-                    <a class="nav-link active" id="topic1-tab" data-toggle="tab" href="#topic1" role="tab" aria-controls="topic1" aria-selected="true">Topic 1</a>
+            <ul class="nav nav-pills tabs__caption" id="questionsTab" role="tablist">
+                <li class="nav-item active">
+                    <a class="nav-link active" id="topic1-tab" href="#topic1" aria-current="page">Topic 1</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="topic2-tab" data-toggle="tab" href="#topic2" role="tab" aria-controls="topic2" aria-selected="false">Topic 2</a>
+                    <a class="nav-link" id="topic2-tab" href="#topic2">Topic 2</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="topic3-tab" data-toggle="tab" href="#topic3" role="tab" aria-controls="topic3" aria-selected="false">Topic 3</a>
+                    <a class="nav-link" id="topic3-tab" href="#topic3">Topic 3</a>
                 </li>
             </ul>
+        </div>
+        <div class="row">
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane tabs__content active">
-                    <div class="messages-container" id="questions-container">
-                        @if (ViewBag.Questions != null && ViewBag.Questions.Count > 0)
-                        {
-                            foreach (QuestionModel question in ViewBag.Questions)
-                            {
-                                <div class="media message">
-                                    <img src="~/content/person.png" class="mr-3" alt="...">
-                                    <div class="media-body">
-                                        <h5 class="mt-0">@question.AuthorName</h5>
-                                        @question.QuestionText <br />
-                                        <span class="message-date float-right">@question.Asked.ToString("hh:mm yyyy/MM/dd")</span>
+                @if (ViewBag.GroupedQuestions != null && ViewBag.GroupedQuestions.Count > 0)
+                {
+                    int groupCounter = 0;
+                    foreach (KeyValuePair<Guid, List<QuestionModel>> questionsForPresentation in ViewBag.GroupedQuestions)
+                    {
+                        bool isFirstItem = groupCounter == 0;
+                        <div class="tab-pane tabs__content @(isFirstItem ? "active" : "")">
+                            <div class="messages-container" id="presentation-@questionsForPresentation.Key">
+                                @if (questionsForPresentation.Value != null && questionsForPresentation.Value.Count > 0)
+                                {
+                                    foreach (QuestionModel question in questionsForPresentation.Value)
+                                    {
+                                        <div class="media message">
+                                            <img src="~/content/person.png" class="mr-3" alt="...">
+                                            <div class="media-body">
+                                                <h5 class="mt-0">@question.AuthorName</h5>
+                                                @question.QuestionText <br />
+                                                <span class="message-date float-right">@question.Asked.ToString("hh:mm yyyy/MM/dd")</span>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="media message">
+                                        <img src="~/content/person.png" class="mr-3" alt="...">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">У матросов нет вопросов</h5>
+                                            Ой, совсем нет вопросов! Докладчик молодец :) <br />
+                                            <span class="message-date float-right">@DateTime.Now.ToString("hh:mm yyyy/MM/dd")</span>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
-                <div class="tab-pane tabs__content">
-                    
-                    <div class="messages-container">
-                        <p>sdfsdfsdfsdf</p>
-                       </div>
-                </div>
-                <div class="tab-pane tabs__content">
-                    <div class="messages-container" id="questions-container">
-                        @if (ViewBag.Questions != null && ViewBag.Questions.Count > 0)
-                        {
-                            foreach (QuestionModel question in ViewBag.Questions)
-                            {
-                                <div class="media message">
-                                    <img src="~/content/person.png" class="mr-3" alt="...">
-                                    <div class="media-body">
-                                        <h5 class="mt-0">@question.AuthorName</h5>
-                                        @question.QuestionText <br />
-                                        <span class="message-date float-right">@question.Asked.ToString("hh:mm yyyy/MM/dd")</span>
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
+                                }
+                            </div>
+                        </div>
+                        groupCounter++;
+                    }
+                }
             </div>
         </div>
     </div>
@@ -73,16 +71,16 @@
             {
                 foreach (FeedbackModel feedback in ViewBag.Feedbacks)
                 {
-                <div class="media message">
-                    <img src="~/content/person.png" class="mr-3" alt="...">
-                    <div class="media-body text-justify">
-                        <h5 class="mt-0">@feedback.AuthorName</h5>
-                        @feedback.Message
-                        <h6 class="mt-1">Future Proposal:</h6>
-                        @feedback.FutureProposal<br />
-                        <span class="message-date float-right">@feedback.Sent.ToString("hh:mm yyyy/MM/dd")</span>
+                    <div class="media message">
+                        <img src="~/content/person.png" class="mr-3" alt="...">
+                        <div class="media-body text-justify">
+                            <h5 class="mt-0">@feedback.AuthorName</h5>
+                            @feedback.Message
+                            <h6 class="mt-1">Future Proposal:</h6>
+                            @feedback.FutureProposal<br />
+                            <span class="message-date float-right">@feedback.Sent.ToString("hh:mm yyyy/MM/dd")</span>
+                        </div>
                     </div>
-                </div>
                 }
             }
         </div>
