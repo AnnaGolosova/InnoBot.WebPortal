@@ -79,7 +79,14 @@ namespace InnoBot.WebPortal.Services
             }
 
             var groupedPresentations = new Dictionary<Guid, List<QuestionModel>>();
-            foreach (var presentationId in allPresentations.Select(p => p.Id))
+            var presentationIds = new List<Guid>
+            {
+                new Guid("f7cd069c-b314-45e3-9589-7796e45e5e01"),
+                new Guid("dacb7cdf-ad5a-4cd1-83d4-a02678fd1313"),
+                new Guid("3a8bc096-dff2-4e31-b45a-010a47322836"),
+                new Guid("958AE825-56F4-4390-90E3-4AA9741673A3"),
+            };
+            foreach (var presentationId in presentationIds)
             {
                 var questions = await GetQuestionsForPresentationAsync(presentationId);
 
