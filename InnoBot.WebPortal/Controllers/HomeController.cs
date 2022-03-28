@@ -20,6 +20,7 @@ namespace InnoBot.WebPortal.Controllers
         {
             ViewBag.GroupedQuestions = await _httpService.GetGroupedQuestions();
             ViewBag.Feedbacks = await _httpService.GetFeedbacksAsync();
+            ViewBag.Presentations = await _httpService.GetPresentationsAsync();
 
             return View();
         }

@@ -9,6 +9,27 @@
         </div>
         <div class="row tabs" id="questions-tabs">
             <ul class="nav nav-pills tabs__caption" id="questionsTab" role="tablist">
+                @{
+                    int counter = 0;
+                    @foreach (PresentationModel presentation in ViewBag.Presentations)
+                    {
+                        string topicName = "topic" + counter;
+                        if (counter == 0)
+                        {
+                           <li class="nav-item active">
+                            <a class="nav-link active" id="@topicName" href="#@topicName" aria-current="page">@presentation.Title</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" id="@topicName" href="#@topicName" >@presentation.Title</a>
+                            </li> 
+                        }
+
+                        counter++;
+                    }
+                }@*
                 <li class="nav-item active">
                     <a class="nav-link active" id="topic1-tab" href="#topic1" aria-current="page">Topic 1</a>
                 </li>
@@ -20,7 +41,7 @@
                 </li> 
                 <li class="nav-item">
                     <a class="nav-link" id="topic-general-tab" href="#topic0">Out of Topic</a>
-                </li>
+                </li>*@
             </ul>
         </div>
         <div class="row">
@@ -40,6 +61,7 @@
                                         <div class="media message">
                                             <img src="~/content/person.png" class="mr-3" alt="...">
                                             <div class="media-body text-break text-justify">
+                                                
                                                 <h5 class="mt-0">@question.AuthorName</h5>
                                                 @question.QuestionText
                                                 <span class="message-date float-right">@question.Asked.ToString("hh:mm:ss yyyy/MM/dd")</span>

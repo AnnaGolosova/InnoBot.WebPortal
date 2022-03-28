@@ -95,5 +95,19 @@ namespace InnoBot.WebPortal.Services
 
             return groupedPresentations;
         }
+
+        public async Task<List<PresentationModel>> GetPresentationsAsync()
+        {
+            var serverResponse = await _httpClient.GetAsync(_apiUrl + "api/presentations");
+
+            if (serverResponse.IsSuccessStatusCode)
+            {
+                var stringContent = await serverResponse.Content.ReadAsStringAsync();
+
+                return JsonConvert.DeserializeObject<List<PresentationModel>>(stringContent) ?? new List<PresentationModel>();
+            }
+
+            return new List<PresentationModel>();
+        }
     }
 }
