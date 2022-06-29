@@ -44,26 +44,25 @@ const FeedbackTemplate = ({ name, text, proposal, date }) => `
 </div>
     `;
 function PrintNewQuestion(question) {
-    let askedDate = new Date(question.asked);
-
+    let askedDate = question.asked;
     $('#presentation-' + question.presentationId).prepend([
         {
             name: question.authorName,
             text: question.questionText,
-            date: askedDate.getHours() + ':' + askedDate.getMinutes() + ' ' + askedDate.getFullYear() + '/' + askedDate.getMonth() + '/' + askedDate.getDate()
+            date: askedDate.substring(0, askedDate.indexOf("."))
         }
     ].map(QuestionTemplate).join(''));
 }
 
 function PrintNewFeedback(feedback) {
-    let sentDate = new Date(feedback.sent);
+    let sentDate = feedback.sent;
 
     $('#feedbacks-container').prepend([
         {
             name: feedback.authorName,
             text: feedback.message,
             proposal: feedback.futureProposal,
-            date: sentDate.getHours() + ':' + sentDate.getMinutes() + ' ' + sentDate.getFullYear() + '/' + sentDate.getMonth() + '/' + sentDate.getDate()
+            date: sentDate.substring(0, sentDate.indexOf("."))
         }
     ].map(FeedbackTemplate).join(''));
 }
