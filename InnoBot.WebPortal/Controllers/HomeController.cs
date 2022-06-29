@@ -18,9 +18,13 @@ namespace InnoBot.WebPortal.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.GroupedQuestions = await _httpService.GetGroupedQuestions();
-            ViewBag.Feedbacks = await _httpService.GetFeedbacksAsync();
-            ViewBag.Presentations = await _httpService.GetPresentationsAsync();
+            var currentMeetupId = new Guid("7ef9eade-92a2-4277-94df-45b802157ef3");
+            var presentations = await _httpService.GetPresentationsForMeetupAsync(currentMeetupId);
+            var presentationIds = presentations.Select(x => x.Id).ToList();
+
+            ViewBag.GroupedQuestions = await _httpService.GetGroupedQuestions(currentMeetupId, presentationIds);
+            ViewBag.Feedbacks = await _httpService.GetFeedbacksAsync(currentMeetupId);
+            ViewBag.Presentations = presentations;
 
             return View();
         }

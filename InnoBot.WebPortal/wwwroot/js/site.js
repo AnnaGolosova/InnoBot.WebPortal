@@ -10,7 +10,7 @@ $(document).ready(function () {
     });
 
     hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:44348/chat")
+        .withUrl("http://localhost:53661/chat")
         .withAutomaticReconnect()
         .build();
     hubConnection.on("SendQuestion", PrintNewQuestion);
